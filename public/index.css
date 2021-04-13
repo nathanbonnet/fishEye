@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    display:flex;
+    justify-content: center;
+}
+
+main {
+    margin-top: 50px;
+}
+
+#container{
+    position: relative;
+    width: 80%;
+}
+
+.photographers {
+    color: rgb(197, 94, 69);
+}
+
+.bloc_photographers_tags {
+    margin-top: -10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.photographers_tags {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    margin: 0.3em;
+    color: rgb(127, 37, 32);
+    border: 0.1px solid black;
+    border-radius: 30px;
+}
+
+.photographers_city {
+    color: rgb(127, 37, 32);
+    font-size: 15px;
+    margin-top: -15px;
+}
+
+.photographers_tagLine {
+    margin-top: -10px;
+}
+
+.photographers_price {
+    margin-top: -10px;
+}
+
+
+#bloc_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    #bloc_main {
+        flex-direction: row;
+    }
+    .bloc_photographer {
+        padding: 2em;
+        width: 20% !important;
+        text-align: center;
+    }
+}
+
+.bloc_photographer {
+    padding: 2em;
+    width: 60%;
+    text-align: center;
+}
+
+.img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.title {
+    color: rgb(127, 37, 32);
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.logo {
+    width: 25%;
+}
+
+.lien_photographe, .lien_tag_photographe {
+    text-decoration: none;
+}

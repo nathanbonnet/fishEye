@@ -1,0 +1,25 @@
+{
+    "name": "fisheye",
+    "version": "1.0.0",
+    "description": "",
+    "private": "true",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "webpack --watch --mode=development",
+        "build": "webpack"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "css-loader": "^4.2.1",
+        "sass": "^1.26.10",
+        "sass-loader": "^9.0.3",
+        "style-loader": "^1.2.1",
+        "webpack": "^4.44.1",
+        "webpack-cli": "^3.3.12"
+    },
+    "dependencies": {
+        "lodash": "^4.17.20"
+    }
+}
