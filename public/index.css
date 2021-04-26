@@ -2,15 +2,51 @@ body {
     margin: 0;
     display:flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+header {
+    width: 78%;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 16px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.lien_logo {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 main {
-    margin-top: 50px;
+    margin-top: 150px;
 }
 
-#container{
-    position: relative;
-    width: 80%;
+.title {
+    color: rgb(127, 37, 32);
+    position: absolute;
+    right: 3em;
+    top: 0.5em;
+}
+
+#bloc_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .photographers {
@@ -35,6 +71,11 @@ main {
     border-radius: 30px;
 }
 
+.lien_tag_photographe_selected {
+    background-color: rgb(127, 37, 32);
+    color: white;
+}
+
 .photographers_city {
     color: rgb(127, 37, 32);
     font-size: 15px;
@@ -47,26 +88,6 @@ main {
 
 .photographers_price {
     margin-top: -10px;
-}
-
-
-#bloc_main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-@media (min-width: 768px) {
-    #bloc_main {
-        flex-direction: row;
-    }
-    .bloc_photographer {
-        padding: 2em;
-        width: 20% !important;
-        text-align: center;
-    }
 }
 
 .bloc_photographer {
@@ -82,17 +103,65 @@ main {
     object-fit: cover;
 }
 
-.title {
-    color: rgb(127, 37, 32);
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.logo {
-    width: 25%;
-}
-
 .lien_photographe, .lien_tag_photographe {
     text-decoration: none;
+}
+
+.photographers_tags:hover {
+    background-color: #901c1c;
+    color: white;
+}
+
+@media (min-width: 1250px) {
+    #bloc_main {
+        flex-direction: row;
+        width: 80%;
+    }
+    .bloc_photographer {
+        padding: 2em;
+        width: 20% !important;
+        text-align: center;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        width: 80%;
+    }
+}
+
+@media (min-width: 1250px) and (max-width: 1450px) {
+    #nav {
+        font-size: 12px;
+    }
+}
+
+
+@media (min-width: 1250px) and (max-width: 1600px) {
+    .lien_logo {
+        width: 25%;
+    }
+    .logo {
+        width: 85%;
+    }
+}
+
+@media (max-width: 1250px) {
+    .logo {
+        width: 55%;
+    }
+    #nav {
+        margin-top: 60px;
+    }
+    header {
+        width: 100%;
+    }
+    nav {
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .title {
+        font-size: 15px;
+        right: 2em;
+    }
 }

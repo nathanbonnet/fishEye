@@ -1,0 +1,168 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+
+.photographers {
+    color: rgb(197, 94, 69);
+}
+
+.photographers_city {
+    color: rgb(127, 37, 32);
+    font-size: 15px;
+    margin-top: -15px;
+}
+
+.img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.lien_tag_photographe {
+    text-decoration: none;
+    color: black;
+}
+
+.photographers_tags {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    margin: 0.3em;
+    color: rgb(127, 37, 32);
+    border: 0.1px solid black;
+    border-radius: 30px;
+}
+
+.photographers_tags:hover {
+    background-color: #901c1c;
+    color: white;
+}
+
+#bloc_main_photographer {
+    display: flex;
+    height: 300px;
+    align-items: center;
+    background-color: #fafafa;
+    margin-top: 3rem;
+}
+
+#info {
+    padding-left: 40px;
+}
+
+.bloc_photographers {
+    display: flex;
+}
+
+#contact {
+    width: 45%;
+    margin-left: 5.5em;
+}
+
+.button_contact {
+    font-size: 15px;
+    padding: 15px;
+    background-color: #901c1c;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    margin-top: 30px;
+}
+
+.button_contact:hover, .button_contact:focus {
+    background-color: #d3573c;
+    color: black;
+}
+
+.dropdown {
+    margin-left: 30px;
+}
+
+#dropdownMenuButton1 {
+    background-color: #901c1c;
+    color: white;
+}
+
+.dropdown-menu {
+    background-color: #901c1c !important;
+}
+
+.dropdown-item {
+    color: white !important;
+}
+
+.dropdown-item:hover {
+    background-color: #d3573c !important;
+}
+
+@media (max-width: 768px) {
+    #contact {
+        position: absolute;
+        bottom: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+    }
+    .button_contact {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .container {
+        width: 100%;
+    }
+    #bloc_main_photographer {
+        height: 170px;
+    }
+    .img {
+        width: 120px;
+        height: 120px;
+    }
+    .logo {
+        width: 55%;
+    }
+    #info {
+        padding-left: 0px;
+    }
+    #info p {
+        font-size: 10px;
+    }
+}
+
+#bloc_main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.bloc_info {
+    color: #901c1c;
+}
+
+.bloc-img {
+    width: 350px;
+    height: 350px;
+}
+
+.img-card {
+    height: 300px;
+    object-fit: cover;
+}
+
+.title {
+    width: 65%;
+}
