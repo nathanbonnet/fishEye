@@ -27,7 +27,7 @@
                 <div id="bloc_main_photographer">
                     <div id="info"></div>
                     <div id="contact">
-                        <button type="button" id="contacter" class="button_contact" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" id="contacter" class="button_contact d-none d-md-block" data-toggle="modal" data-target="#exampleModal">
                             Contactez-moi
                           </button>
                           
@@ -93,12 +93,15 @@
     
                 </div>
             </div>
-            <div class="info_photographe col-2">
+            <div class="info_photographe col-2 d-none d-md-block">
                 <div class="d-flex bg-red w-100 justify-content-around">
-                    <p id="total_like">2000</p>
+                    <p id="total_like"></p>
                     <p id="tarif_total"></p>
                 </div>
             </div>
+            <button type="button" id="contacter" class="button_contact button_contact_responsive d-block d-md-none" data-toggle="modal" data-target="#exampleModal">
+                Contactez-moi
+            </button>
         </main>
     </div>
 </body>
