@@ -20,6 +20,11 @@ body {
     margin-top: -15px;
 }
 
+#img {
+    margin-left: -3rem;
+    margin-top: -3rem;
+}
+
 .img {
     width: 200px;
     height: 200px;
@@ -69,7 +74,7 @@ body {
     margin-left: 5.5em;
 }
 
-.button_contact {
+.button_contact, .button_envoyer {
     font-size: 15px;
     padding: 15px;
     background-color: #901c1c;
@@ -105,6 +110,24 @@ body {
     background-color: #d3573c !important;
 }
 
+.modal-content {
+    background-color: #d3573c !important;
+}
+
+.info_photographe {
+    position: fixed;
+    bottom: 0;
+    right: 50px;
+    border-radius: 5px;
+    display: flex;
+    background-color: #d3573c;
+    padding: 10px;
+}
+
+.info_photographe p {
+    margin: 0;
+}
+
 @media (max-width: 768px) {
     #contact {
         position: absolute;
@@ -129,8 +152,8 @@ body {
         height: 170px;
     }
     .img {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
     }
     .logo {
         width: 55%;

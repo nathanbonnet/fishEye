@@ -1,4 +1,5 @@
 import data from '../data.json';
+// window.localStorage.clear();
 
 //permet de recuperer les information passé dans l'url
 const url = new URL(window.location.href);
@@ -12,6 +13,9 @@ let bloc = document.getElementById("bloc_main");
 
 let photographers = data.photographers.find(photographer => photographer.id == id);
 
+let like = data.media.find(like => like.likes == photographers.id);
+console.log(like, photographers.id);
+
 createImage(galleries)
 
 function createImage(galleries) {
@@ -22,7 +26,7 @@ function createImage(galleries) {
         const img = document.createElement("img");
         const title = document.createElement("p");
         const price = document.createElement("p");
-        const like = document.createElement("p");
+        let like = document.createElement("p");
     
         bloc.append(bloc_img);
         bloc_img.append(img);
@@ -48,6 +52,7 @@ function createImage(galleries) {
         bloc_info.setAttribute("class", "d-flex justify-content-between bloc_info mt-2");
         title.setAttribute("class", "title")
         img.setAttribute("class", "w-100 img-card");
+        like.setAttribute("id", "like");
     
         //aria-label
         bloc_img.setAttribute("aria-label", gallerie.image)
@@ -55,6 +60,11 @@ function createImage(galleries) {
         price.setAttribute("aria-label", gallerie.price+" euro");
         img.setAttribute("alt", gallerie.image);
         like.setAttribute("aria-label", gallerie.likes+" like");
+
+        document.getElementById("like").addEventListener("click", () => {
+            gallerie.likes += 1;
+            like.innerHTML = gallerie.likes + ' <i class="fas fa-heart"></i>';
+        })
     });
 }
 
@@ -66,6 +76,7 @@ const name = document.createElement("h2");
 const city = document.createElement("h3");
 const photographer_tagLine = document.createElement("p");
 const bloc_photographers_tags = document.createElement("div");
+const tarif_total = document.getElementById("tarif_total");
 
 info.append(name);
 info.append(city);
@@ -75,6 +86,11 @@ info.append(bloc_photographers_tags);
 name.innerHTML = photographers.name;
 city.innerHTML = photographers.city+ ", " + photographers.country;
 photographer_tagLine.innerHTML = photographers.tagline;
+tarif_total.innerHTML = photographers.price+ "€ /jour";
+
+//modal
+
+document.querySelector(".modal-title").innerHTML = "Contactez-moi <br>" + photographers.name;
 
 //class
 name.setAttribute("class", "photographers");
@@ -165,3 +181,83 @@ date.addEventListener("click", () => {
 
 
 // test()
+
+acheter()
+
+function acheter(){
+    document.getElementById("contacter").addEventListener("click", function(event){
+    let error = document.getElementById("error");
+        event.preventDefault();
+     
+        let inputName = document.getElementById("prenom");
+        let inputNom = document.getElementById("nom");
+        let inputEmail = document.getElementById("email");
+        let inputMessage = document.getElementById("message")
+        checkSubmit()
+
+        function checkSubmit() {
+            
+            if(checkEmpty(inputName) && checkEmpty(inputNom) && checkEmpty(inputEmail) && checkEmail(inputEmail) && checkEmpty(inputMessage)) {
+                document.getElementById("envoyer").addEventListener("click", function(event){
+                    let contact = {
+                        firstName: inputName.value,
+                        lastName: inputNom.value,
+                        email: inputEmail.value,
+                        message: inputMessage.value,
+                    }
+                    console.log(contact)
+                    localStorage.setItem("contact", JSON.stringify(contact));
+                })
+                return true
+                }else {
+                    return false
+                }
+        }
+
+        checkForm()
+
+        function checkEmpty(input) {
+            if(input.value === "") {
+                error.textContent = `${input.name} est vide`;
+                error.setAttribute("class", "btn btn-danger")
+                return false
+            }else {
+                error.textContent = ``;
+                error.setAttribute("class", "")
+                return true
+            }
+        }
+
+        function checkEmail(input) {
+            let regex = /\S+@\S+\.\S+/;
+            if(!regex.test(input.value)) {
+                error.textContent = `le format de l'email n'est pas correct`;
+                return false
+            }else {
+                error.textContent = ``;
+                return true
+            }
+        }
+
+        function checkForm() {
+            document.getElementById("prenom").addEventListener('keyup', (e) => {
+                checkEmpty(e.target);
+                checkSubmit()
+            })
+            document.getElementById("nom").addEventListener('keyup', (e) => {
+                checkEmpty(e.target);
+                checkSubmit()
+            })
+            document.getElementById("email").addEventListener('keyup', (e) => {
+                checkEmpty(e.target);
+                checkEmail(e.target);
+                checkSubmit()
+            })
+            document.getElementById("message").addEventListener('keyup', (e) => {
+                checkEmpty(e.target);
+                checkSubmit()
+            })
+        }
+        
+    });
+}
