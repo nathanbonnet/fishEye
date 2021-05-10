@@ -137,6 +137,36 @@ body {
     margin: 0;
 }
 
+#carousel {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.img_carousel {
+    height: 700px;
+    object-fit: cover;
+}
+
+.carousel-control, .close {
+    color: #901c1c;
+    font-size: 35px;
+}
+
+.button_close {
+    background-color: #fff;
+    width: 15%;
+    position: absolute;
+    right: 0;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+}
+
 @media (max-width: 768px) {
     #contact {
         position: absolute;

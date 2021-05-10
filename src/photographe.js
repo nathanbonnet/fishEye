@@ -95,6 +95,8 @@ function createImage(galleries) {
         title.setAttribute("aria-label", gallerie.image)
         price.setAttribute("aria-label", gallerie.price+" euro");
         img.setAttribute("alt", gallerie.image);
+        img.setAttribute("data-toggle", "modal");
+        img.setAttribute("data-target", "#carousel");
         like.setAttribute("aria-label", gallerie.likes+" like");
 
         document.getElementById("like"+ i).addEventListener("click", () => {
@@ -114,6 +116,9 @@ function createImage(galleries) {
         i++
     });
 }
+
+const imageDirectoryName = photographers.name.split(' ')[0];
+carousel(imageDirectoryName, galleries)
 
 const info = document.getElementById("info")
 const img = document.getElementById("img_photographer");
@@ -203,33 +208,37 @@ date.addEventListener("click", () => {
     createImage(galleries)
 });
 
-// function test() {
-//     let carousel = `
-//     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-//         <div class="carousel-inner">
-//             <div class="carousel-item active">
-//                 <img src="../img/Sample_Photos-2/Event_PintoWedding.jpg" class="d-block w-100" alt="...">
-//             </div>
-//             <div class="carousel-item">
-//                 <img src="../img/Sample_Photos-2/Event_BenevidesWedding.jpg"" class="d-block w-100" alt="...">
-//             </div>
-//         </div>
-//         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-//             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-//             <span class="visually-hidden">Previous</span>
-//         </button>
-//         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-//             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-//             <span class="visually-hidden">Next</span>
-//         </button>
-//     </div>
-// `;
+function carousel(photographer, galleries) {
+    let carousel = `
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselInner" class="carousel-inner">
+            
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        </div>
+    </div>
+`;
+document.getElementById("carousel").innerHTML += carousel;
 
-// document.getElementById("carousel").innerHTML += carousel;
-// }
-
-
-// test()
+galleries.forEach(gallerie => {
+    if (gallerie.image) {
+        let image = gallerie.image;
+        let itemCarousel = `
+        <div class="carousel-item d-flex active justify-content-center">
+            <img src="../img/Sample_Photos-2/${photographer}/${image}" class="d-bloc w-50 img_carousel" alt="${image}">
+        </div>
+        `
+        document.getElementById("carouselInner").innerHTML += itemCarousel;
+    }
+})
+}
 
 acheter()
 
@@ -266,7 +275,7 @@ function acheter(){
     function checkEmpty(input) {
         if(input.value === "") {
             error.textContent = `${input.name} est vide`;
-            error.setAttribute("class", "btn btn-danger")
+            error.setAttribute("class", "btn btn-danger");
             return false
         }else {
             error.textContent = ``;
@@ -279,6 +288,7 @@ function acheter(){
         let regex = /\S+@\S+\.\S+/;
         if(!regex.test(input.value)) {
             error.textContent = `le format de l'email n'est pas correct`;
+            error.setAttribute("class", "btn btn-danger");
             return false
         }else {
             error.textContent = ``;
