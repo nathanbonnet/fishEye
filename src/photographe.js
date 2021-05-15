@@ -5,24 +5,28 @@ import data from '../data.json';
 const url = new URL(window.location.href);
 const id = url.searchParams.get("id");
 
-console.log(data)
-
+// permet de recuperer les medias qui corresponde au photographe 
 let galleries = data.media.filter(media => media.photographerId == id);
 
+// permet de retourner le resultat total de tous les likes des images du photographe
 let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
 
 let bloc = document.getElementById("bloc_main");
 
+// permet de retourner toutes les informations en rapport avec le photographe
 let photographers = data.photographers.find(photographer => photographer.id == id);
 
 createImage(galleries)
 
 function createImage(galleries) {
+    // permet de vider le bloc qui contient toutes les images avant de les ajoutés 
     bloc.innerHTML = "";
     let i = 1;
 
     console.log(total);
     galleries.forEach((gallerie) => {
+        // creation d'une Factory Method pour les videos ou les images
+
         class Image {
             constructor () {
                 const element = document.createElement("img");
@@ -50,24 +54,33 @@ function createImage(galleries) {
                 }
             }
         }
+
+        //
             
+        // creation de tous les elements necessaire au bloc pour les images
         const factory = new ElementFactory();
         const bloc_img = document.createElement("div");
         const bloc_info = document.createElement("div");
         const title = document.createElement("p");
         const price = document.createElement("p");
         let like = document.createElement("p");
-        // const img = document.createElement("img");
         let img;
+
+        // cretion d'un bloc img ou video selon le format du contenu 
         if (gallerie.image) {
             img = factory.create("image");
+            // si le nom de l'image contient 2 fois un .jpg alors elle en effacera 1
             if (gallerie.image && gallerie.image.includes(".jpg.jpg")) {
                 gallerie.image = gallerie.image.replace('.jpg.jpg', '.jpg')
-            }    
+            } 
+
+            // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
             img.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.image;
         }else if (gallerie.video) {
             img = factory.create("video");
+
+            // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
             img.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video;
         }
@@ -114,10 +127,24 @@ function createImage(galleries) {
             total_like.innerHTML = total + ' <i class="fas fa-heart"></i>';
         })
         i++
+
+        bloc_img.addEventListener("click", () => {
+            console.log(bloc_img)
+            const arrayCarrouselItem = document.getElementsByClassName('carousel-item');
+            for (const item of arrayCarrouselItem) {
+                if (item.querySelector('img').src.includes(gallerie.image)) {
+                    item.classList.add('active')
+                } else {
+                    item.classList.remove("active");
+                }
+            }
+        });
     });
 }
 
+// permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
 const imageDirectoryName = photographers.name.split(' ')[0];
+
 carousel(imageDirectoryName, galleries)
 
 const info = document.getElementById("info")
@@ -155,6 +182,9 @@ bloc_photographers_tags.setAttribute("class", "bloc_photographers")
 name.setAttribute("aria-label", photographers.name);
 city.setAttribute("aria-label", photographers.city);
 bloc_photographers_tags.setAttribute("aria-label", photographers.tagline)
+total_like.setAttribute("aria-label", "like total de toutes les photos")
+tarif_total.setAttribute("aria-label", "prix a la journée du photographe " + photographers.price + "€")
+
 
 photographers.tags.forEach((photographer) => {
     //création de tous les élements pour les tags de chaque photographe
@@ -188,16 +218,21 @@ let titre = document.getElementById("titre");
 let popularité = document.getElementById("popularite");
 let date = document.getElementById("date");
 
+// permet de faire un affichage en fonction du nom
 titre.addEventListener("click", () => {
     title_button.innerHTML = titre.textContent;
     galleries.sort((a, b) => a.name > b.name);
     createImage(galleries)
 });
+
+// permet de faire un affichage en fonction des likes
 popularité.addEventListener("click", () => {
     title_button.innerHTML = popularité.textContent;
     galleries.sort((a, b) => b.likes - a.likes);
     createImage(galleries)
 });
+
+// permet de faire un affichage en fonction de la date
 date.addEventListener("click", () => {
     title_button.innerHTML = date.textContent;
     galleries.forEach(gallerie => {
@@ -208,43 +243,50 @@ date.addEventListener("click", () => {
     createImage(galleries)
 });
 
+
+// creation du carousel
 function carousel(photographer, galleries) {
     let carousel = `
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div id="carouselInner" class="carousel-inner">
-            
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+            <!-- methode factory pour l'image ou la video -->
+                ${galleries.map(gallerie => {
+                    if (gallerie.image) {
+                        return `
+                            <div class="carousel-item d-flex justify-content-center">
+                                <img src="../img/Sample_Photos-2/${photographer}/${gallerie.image}" class="d-block w-50 img_carousel" alt="${gallerie.image}">
+                            </div>
+                        `
+                    } else if (gallerie.video) {
+                        return `
+                            <div class="carousel-item d-flex justify-content-center">
+                                <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}" class="d-block w-50 img_carousel" alt="${gallerie.video}">
+                            </div>
+                        `
+                    }
+                }).join("")}
+            </div>
+            <a class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-        </div>
-    </div>
-`;
-document.getElementById("carousel").innerHTML += carousel;
-
-galleries.forEach(gallerie => {
-    if (gallerie.image) {
-        let image = gallerie.image;
-        let itemCarousel = `
-        <div class="carousel-item d-flex active justify-content-center">
-            <img src="../img/Sample_Photos-2/${photographer}/${image}" class="d-bloc w-50 img_carousel" alt="${image}">
-        </div>
-        `
-        document.getElementById("carouselInner").innerHTML += itemCarousel;
-    }
-})
+    `;
+    document.getElementById("carousel").innerHTML += carousel;
 }
 
-acheter()
 
-function acheter(){
+// permet d'enregistrer les informations du formulaire et de gerer les erreurs
+document.getElementById("envoyer").addEventListener("click", () => {
+    formulaire()
+})
+
+function formulaire(){
     let error = document.getElementById("error");
-     
     let inputName = document.getElementById("prenom");
     let inputNom = document.getElementById("nom");
     let inputEmail = document.getElementById("email");
@@ -276,6 +318,7 @@ function acheter(){
         if(input.value === "") {
             error.textContent = `${input.name} est vide`;
             error.setAttribute("class", "btn btn-danger");
+            error.setAttribute("aria-label", input.name + "est vide");
             return false
         }else {
             error.textContent = ``;
@@ -289,6 +332,7 @@ function acheter(){
         if(!regex.test(input.value)) {
             error.textContent = `le format de l'email n'est pas correct`;
             error.setAttribute("class", "btn btn-danger");
+            error.setAttribute("aria-label", "le format de l'email n'est pas correct");
             return false
         }else {
             error.textContent = ``;

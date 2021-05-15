@@ -150,21 +150,45 @@ body {
     object-fit: cover;
 }
 
-.carousel-control, .close {
+.close_carousel button {
+    position: absolute;
+    top: 1rem;
+    right: 7rem;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
     color: #901c1c;
-    font-size: 35px;
+    font-size: 5rem;
 }
 
-.button_close {
-    background-color: #fff;
-    width: 15%;
-    position: absolute;
+.modal-dialog {
+    max-width: 100% !important;
+}
+
+.modal_contact {
     right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30% !important;
 }
 
-.close {
-    position: absolute;
-    top: 0;
+.carousel .active {
+    z-index: 5;
+}
+
+.carousel .active + .carousel-item {
+    z-index: 4;
+}
+
+.carousel .active ~ .carousel-item:not(.active) {
+    opacity: 0;
+}
+
+.carousel-control {
+    z-index: 6 !important;
+}
+
+.close_carousel .close{
+    z-index: 10;
 }
 
 @media (max-width: 768px) {
