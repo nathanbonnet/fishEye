@@ -254,13 +254,13 @@ function carousel(photographer, galleries) {
                     if (gallerie.image) {
                         return `
                             <div class="carousel-item d-flex justify-content-center">
-                                <img src="../img/Sample_Photos-2/${photographer}/${gallerie.image}" class="d-block w-50 img_carousel" alt="${gallerie.image}">
+                                <img src="../img/Sample_Photos-2/${photographer}/${gallerie.image}" class="d-block img_carousel" alt="${gallerie.image}">
                             </div>
                         `
                     } else if (gallerie.video) {
                         return `
                             <div class="carousel-item d-flex justify-content-center">
-                                <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}" class="d-block w-50 img_carousel" alt="${gallerie.video}">
+                                <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}" class="d-block img_carousel" alt="${gallerie.video}">
                             </div>
                         `
                     }

@@ -145,15 +145,21 @@ body {
     right: 0;
 }
 
+#carouselExampleControls {
+    margin-top: 10rem;
+}
+
 .img_carousel {
     height: 700px;
-    object-fit: cover;
+    width: 50%;
+    margin-top: -10%;
+    object-fit: contain;
 }
 
 .close_carousel button {
     position: absolute;
     top: 1rem;
-    right: 7rem;
+    right: 3rem;
     border: none;
     background-color: rgba(0, 0, 0, 0);
     color: #901c1c;
@@ -168,7 +174,6 @@ body {
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 30% !important;
 }
 
 .carousel .active {
@@ -191,7 +196,18 @@ body {
     z-index: 10;
 }
 
+@media (min-width: 768px) {
+    .modal_contact {
+        width: 30% !important;
+    }
+}
+
 @media (max-width: 768px) {
+    .img_carousel {
+        height: 400px;
+        width: 250px;
+        object-fit: contain;
+    }
     #contact {
         position: absolute;
         bottom: 1rem;
