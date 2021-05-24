@@ -1,5 +1,36 @@
 import data from '../data.json';
+import carousel from './carousel'
 // window.localStorage.clear();
+
+// creation d'une Factory Method pour les videos ou les images
+
+class Image {
+    constructor () {
+        const element = document.createElement("img");
+        this.getElement = () => element
+    }
+}
+
+class Video {
+    constructor () {
+        const element = document.createElement("video");
+        this.getElement = () => element
+    }
+}
+
+class ElementFactory {
+    constructor () {
+        this.create = (type) => {
+            let elementClass;
+            if (type == "image") {
+                elementClass = new Image();
+            } else if (type == "video") {
+                elementClass = new Video();
+            }
+            return elementClass.getElement();
+        }
+    }
+}
 
 //permet de recuperer les information passé dans l'url
 const url = new URL(window.location.href);
@@ -25,37 +56,6 @@ function createImage(galleries) {
 
     console.log(total);
     galleries.forEach((gallerie) => {
-        // creation d'une Factory Method pour les videos ou les images
-
-        class Image {
-            constructor () {
-                const element = document.createElement("img");
-                this.getElement = () => element
-            }
-        }
-        
-        class Video {
-            constructor () {
-                const element = document.createElement("video");
-                this.getElement = () => element
-            }
-        }
-        
-        class ElementFactory {
-            constructor () {
-                this.create = (type) => {
-                    let elementClass;
-                    if (type == "image") {
-                        elementClass = new Image();
-                    } else if (type == "video") {
-                        elementClass = new Video();
-                    }
-                    return elementClass.getElement();
-                }
-            }
-        }
-
-        //
             
         // creation de tous les elements necessaire au bloc pour les images
         const factory = new ElementFactory();
@@ -64,11 +64,11 @@ function createImage(galleries) {
         const title = document.createElement("p");
         const price = document.createElement("p");
         let like = document.createElement("p");
-        let img;
+        let element;
 
         // cretion d'un bloc img ou video selon le format du contenu 
         if (gallerie.image) {
-            img = factory.create("image");
+            element = factory.create("image");
             // si le nom de l'image contient 2 fois un .jpg alors elle en effacera 1
             if (gallerie.image && gallerie.image.includes(".jpg.jpg")) {
                 gallerie.image = gallerie.image.replace('.jpg.jpg', '.jpg')
@@ -76,16 +76,16 @@ function createImage(galleries) {
 
             // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
-            img.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.image;
+            element.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.image;
         }else if (gallerie.video) {
-            img = factory.create("video");
+            element = factory.create("video");
 
             // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
-            img.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video;
+            element.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video;
         }
         bloc.append(bloc_img);
-        bloc_img.append(img);
+        bloc_img.append(element);
         bloc_img.append(bloc_info);
         bloc_info.append(title);
         bloc_info.append(price);
@@ -100,16 +100,16 @@ function createImage(galleries) {
         bloc_img.setAttribute("class", "bloc-img mt-4");
         bloc_info.setAttribute("class", "d-flex justify-content-between bloc_info mt-2");
         title.setAttribute("class", "title")
-        img.setAttribute("class", "w-100 img-card");
+        element.setAttribute("class", "w-100 img-card");
         like.setAttribute("id", "like"+ i);
     
         //aria-label
         bloc_img.setAttribute("aria-label", gallerie.image)
         title.setAttribute("aria-label", gallerie.image)
         price.setAttribute("aria-label", gallerie.price+" euro");
-        img.setAttribute("alt", gallerie.image);
-        img.setAttribute("data-toggle", "modal");
-        img.setAttribute("data-target", "#carousel");
+        element.setAttribute("alt", gallerie.image);
+        element.setAttribute("data-toggle", "modal");
+        element.setAttribute("data-target", "#carousel");
         like.setAttribute("aria-label", gallerie.likes+" like");
 
         document.getElementById("like"+ i).addEventListener("click", () => {
@@ -132,20 +132,18 @@ function createImage(galleries) {
             console.log(bloc_img)
             const arrayCarrouselItem = document.getElementsByClassName('carousel-item');
             for (const item of arrayCarrouselItem) {
-                if (item.querySelector('img').src.includes(gallerie.image)) {
+                if (item.querySelector('img') && item.querySelector('img').src.includes(gallerie.image)) {
                     item.classList.add('active')
-                } else {
+                } else if (item.querySelector('video') && item.querySelector('video').src.includes(gallerie.video)) {
+                    item.classList.add('active')
+                } 
+                else {
                     item.classList.remove("active");
                 }
             }
         });
     });
 }
-
-// permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
-const imageDirectoryName = photographers.name.split(' ')[0];
-
-carousel(imageDirectoryName, galleries)
 
 const info = document.getElementById("info")
 const img = document.getElementById("img_photographer");
@@ -211,6 +209,13 @@ photographers.tags.forEach((photographer) => {
 img.src = "../img/Sample_Photos-2/Photographers_ID_Photos/"+photographers.portrait;
 
 
+
+
+
+
+
+
+
 //dropdown
 
 let title_button = document.getElementById("dropdownMenuButton1");
@@ -243,120 +248,6 @@ date.addEventListener("click", () => {
     createImage(galleries)
 });
 
+const imageDirectoryName = photographers.name.split(' ')[0];
 
-// creation du carousel
-function carousel(photographer, galleries) {
-    let carousel = `
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-            <!-- methode factory pour l'image ou la video -->
-                ${galleries.map(gallerie => {
-                    if (gallerie.image) {
-                        return `
-                            <div class="carousel-item d-flex justify-content-center">
-                                <img src="../img/Sample_Photos-2/${photographer}/${gallerie.image}" class="d-block img_carousel" alt="${gallerie.image}">
-                            </div>
-                        `
-                    } else if (gallerie.video) {
-                        return `
-                            <div class="carousel-item d-flex justify-content-center">
-                                <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}" class="d-block img_carousel" alt="${gallerie.video}">
-                            </div>
-                        `
-                    }
-                }).join("")}
-            </div>
-            <a class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    `;
-    document.getElementById("carousel").innerHTML += carousel;
-}
-
-
-// permet d'enregistrer les informations du formulaire et de gerer les erreurs
-document.getElementById("envoyer").addEventListener("click", () => {
-    formulaire()
-})
-
-function formulaire(){
-    let error = document.getElementById("error");
-    let inputName = document.getElementById("prenom");
-    let inputNom = document.getElementById("nom");
-    let inputEmail = document.getElementById("email");
-    let inputMessage = document.getElementById("message")
-    checkSubmit()
-
-    function checkSubmit() {
-        
-        if(checkEmpty(inputName) && checkEmpty(inputNom) && checkEmpty(inputEmail) && checkEmail(inputEmail) && checkEmpty(inputMessage)) {
-            document.getElementById("envoyer").addEventListener("click", function(event){
-                let contact = {
-                    firstName: inputName.value,
-                    lastName: inputNom.value,
-                    email: inputEmail.value,
-                    message: inputMessage.value,
-                }
-                console.log(contact)
-                localStorage.setItem("contact", JSON.stringify(contact));
-            })
-            return true
-            }else {
-                return false
-            }
-    }
-
-    checkForm()
-
-    function checkEmpty(input) {
-        if(input.value === "") {
-            error.textContent = `${input.name} est vide`;
-            error.setAttribute("class", "btn btn-danger");
-            error.setAttribute("aria-label", input.name + "est vide");
-            return false
-        }else {
-            error.textContent = ``;
-            error.setAttribute("class", "")
-            return true
-        }
-    }
-
-    function checkEmail(input) {
-        let regex = /\S+@\S+\.\S+/;
-        if(!regex.test(input.value)) {
-            error.textContent = `le format de l'email n'est pas correct`;
-            error.setAttribute("class", "btn btn-danger");
-            error.setAttribute("aria-label", "le format de l'email n'est pas correct");
-            return false
-        }else {
-            error.textContent = ``;
-            return true
-        }
-    }
-
-    function checkForm() {
-        document.getElementById("prenom").addEventListener('keyup', (e) => {
-            checkEmpty(e.target);
-            checkSubmit()
-        })
-        document.getElementById("nom").addEventListener('keyup', (e) => {
-            checkEmpty(e.target);
-            checkSubmit()
-        })
-        document.getElementById("email").addEventListener('keyup', (e) => {
-            checkEmpty(e.target);
-            checkEmail(e.target);
-            checkSubmit()
-        })
-        document.getElementById("message").addEventListener('keyup', (e) => {
-            checkEmpty(e.target);
-            checkSubmit()
-        })
-    };
-}
+carousel(imageDirectoryName, galleries, new ElementFactory())

@@ -31,8 +31,16 @@ var photographeConfig = Object.assign({}, config, {
     filename: "photographe.bundle.js"
   },
 });
+var formulaireConfig = Object.assign({}, config, {
+  name: "formulaire",
+  entry: "./src/formulaire.js",
+  output: {
+    path: path.resolve(__dirname, 'dist/js'),
+    filename: "formulaire.bundle.js"
+  },
+});
 
 // Return Array of Configurations
 module.exports = [
-  indexConfig, photographeConfig
+  indexConfig, photographeConfig, formulaireConfig
 ];

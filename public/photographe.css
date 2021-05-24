@@ -154,7 +154,13 @@ body {
     width: 50%;
     margin-top: -10%;
     object-fit: contain;
+    opacity: 0;
 }
+
+.img_carousel .active {
+    opacity: 1;
+}
+
 
 .close_carousel button {
     position: absolute;
