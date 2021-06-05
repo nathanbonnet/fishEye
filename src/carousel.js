@@ -1,6 +1,24 @@
 
 // creation du carousel
-export default function carousel(photographer, galleries, factory) {
+export default function carousel(photographers, galleries, factory) {
+    const imageDirectoryName = photographers.name.split(' ')[0];
+
+    console.log(document.getElementsByClassName('carousel-item'));
+    galleries.forEach((gallerie) => {
+        document.getElementById("bloc-img").addEventListener("click", () => {
+            const arrayCarrouselItem = document.getElementsByClassName('carousel-item');
+            for (const item of arrayCarrouselItem) {
+                if (item.querySelector('img') && item.querySelector('img').src.includes(gallerie.image)) {
+                    item.classList.add('active')
+                } else if (item.querySelector('video') && item.querySelector('video').src.includes(gallerie.video)) {
+                    item.classList.add('active')
+                } 
+                else {
+                    item.classList.remove("active");
+                }
+            }
+        });
+
     let carousel = `
         <div id="carouselExampleControls" class="carousel" data-ride="carousel">
             <div class="carousel-inner">
@@ -8,7 +26,7 @@ export default function carousel(photographer, galleries, factory) {
                 ${galleries.map(gallerie => {
                     if (gallerie.image) {
                         let img = factory.create("image");
-                        img.src = "../img/Sample_Photos-2/" + photographer + "/" + gallerie.image;
+                        img.src = "../img/Sample_Photos-2/" + imageDirectoryName + "/" + gallerie.image;
                         img.setAttribute("class", "d-block img_carousel");
                         img.alt = gallerie.image;
                         console.log(img.outerHTML);
@@ -19,7 +37,7 @@ export default function carousel(photographer, galleries, factory) {
                         `
                     } else if (gallerie.video) {
                         let video = factory.create("video");
-                        video.src = "../img/Sample_Photos-2/" + photographer + "/" + gallerie.video;
+                        video.src = "../img/Sample_Photos-2/" + imageDirectoryName + "/" + gallerie.video;
                         video.setAttribute("class", "d-block img_carousel");
                         video.alt = gallerie.video;
                         console.log(video.outerHTML);
@@ -42,4 +60,5 @@ export default function carousel(photographer, galleries, factory) {
         </div>
     `;
     document.getElementById("carousel").innerHTML += carousel;
+})
 }

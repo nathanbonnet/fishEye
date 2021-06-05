@@ -157,7 +157,7 @@ body {
     opacity: 0;
 }
 
-.img_carousel .active {
+.active {
     opacity: 1;
 }
 
