@@ -1,6 +1,8 @@
 export default function createImage(galleries, ElementFactory, photographers) {
+    console.log(ElementFactory);
+
     // permet de retourner le resultat total de tous les likes des images du photographe
-let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
+    let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
 
     let bloc = document.getElementById("bloc_main");
 
@@ -13,7 +15,7 @@ let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
             
         // creation de tous les elements necessaire au bloc pour les images
         const factory = ElementFactory;
-        const bloc_img = document.createElement("div");
+        const bloc_img = document.createElement("a");
         const bloc_info = document.createElement("div");
         const title = document.createElement("p");
         const price = document.createElement("p");
@@ -36,7 +38,7 @@ let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
 
             // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
-            element.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video;
+            element.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video+"#t=0.1";
         }
         bloc.append(bloc_img);
         bloc_img.append(element);
@@ -52,6 +54,7 @@ let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
     
         //class
         bloc_img.setAttribute("class", "bloc-img mt-4");
+        bloc_img.setAttribute("href", "#");
         bloc_img.setAttribute("id", "bloc-img");
         bloc_info.setAttribute("class", "d-flex justify-content-between bloc_info mt-2");
         title.setAttribute("class", "title")
@@ -65,6 +68,7 @@ let total = galleries.reduce((a, b) => a + (b['likes'] || 0) , 0);
         element.setAttribute("alt", gallerie.image);
         element.setAttribute("data-toggle", "modal");
         element.setAttribute("data-target", "#carousel");
+        element.setAttribute("aria-label", "element photographe");
         like.setAttribute("aria-label", gallerie.likes+" like");
 
         document.getElementById("like"+ i).addEventListener("click", () => {

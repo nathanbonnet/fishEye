@@ -1,5 +1,4 @@
 import data from '../data.json';
-import carousel from './carousel'
 import createImage from './createImage';
 // window.localStorage.clear();
 
@@ -121,14 +120,14 @@ let date = document.getElementById("date");
 titre.addEventListener("click", () => {
     title_button.innerHTML = titre.textContent;
     galleries.sort((a, b) => a.name > b.name);
-    createImage(galleries)
+    createImage(galleries, new ElementFactory(), photographers)
 });
 
 // permet de faire un affichage en fonction des likes
 popularité.addEventListener("click", () => {
     title_button.innerHTML = popularité.textContent;
     galleries.sort((a, b) => b.likes - a.likes);
-    createImage(galleries)
+    createImage(galleries, new ElementFactory(), photographers)
 });
 
 // permet de faire un affichage en fonction de la date
@@ -139,8 +138,44 @@ date.addEventListener("click", () => {
         gallerie.timestamp = (new Date(gallerie.date)).getTime()
     });
     galleries.sort((a, b) => b.timestamp - a.timestamp);
-    createImage(galleries)
+    createImage(galleries, new ElementFactory(), photographers)
 });
+
+// creation du carousel
+function carousel(photographers, galleries) {
+    const imageDirectoryName = photographers.name.split(' ')[0];
+    let carousel = `
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+            <!-- methode factory pour l'image ou la video -->
+                ${galleries.map(gallerie => {
+                    if (gallerie.image) {
+                        return `
+                            <div class="carousel-item d-flex justify-content-center">
+                                <img src="../img/Sample_Photos-2/${imageDirectoryName}/${gallerie.image}" class="d-block img_carousel" alt="${gallerie.image}">
+                            </div>
+                        `
+                    } else if (gallerie.video) {
+                        return `
+                            <div class="carousel-item d-flex justify-content-center">
+                                <video src="../img/Sample_Photos-2/${imageDirectoryName}/${gallerie.video}" class="d-block img_carousel" alt="${gallerie.video}">
+                            </div>
+                        `
+                    }
+                }).join("")}
+            </div>
+            <a class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    `;
+    document.getElementById("carousel").innerHTML += carousel;
+}
 
 createImage(galleries, new ElementFactory(), photographers)
 carousel(photographers, galleries, new ElementFactory())
