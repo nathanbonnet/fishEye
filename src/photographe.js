@@ -1,5 +1,5 @@
 import data from '../data.json';
-import createImage from './createImage';
+import { createImage, carousel } from './createImage';
 // window.localStorage.clear();
 
 // creation d'une Factory Method pour les videos ou les images
@@ -70,6 +70,7 @@ total_like.innerHTML = total+ ' <i class="fas fa-heart"></i>';
 //modal
 
 document.querySelector(".modal-title").innerHTML = "Contactez-moi <br>" + photographers.name;
+document.getElementById("modal-dialog").setAttribute("aria-label", "contact me " + photographers.name);
 
 //class
 name.setAttribute("class", "photographers");
@@ -141,41 +142,8 @@ date.addEventListener("click", () => {
     createImage(galleries, new ElementFactory(), photographers)
 });
 
-// creation du carousel
-function carousel(photographers, galleries) {
-    const imageDirectoryName = photographers.name.split(' ')[0];
-    let carousel = `
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-            <!-- methode factory pour l'image ou la video -->
-                ${galleries.map(gallerie => {
-                    if (gallerie.image) {
-                        return `
-                            <div class="carousel-item d-flex justify-content-center">
-                                <img src="../img/Sample_Photos-2/${imageDirectoryName}/${gallerie.image}" class="d-block img_carousel" alt="${gallerie.image}">
-                            </div>
-                        `
-                    } else if (gallerie.video) {
-                        return `
-                            <div class="carousel-item d-flex justify-content-center">
-                                <video src="../img/Sample_Photos-2/${imageDirectoryName}/${gallerie.video}" class="d-block img_carousel" alt="${gallerie.video}">
-                            </div>
-                        `
-                    }
-                }).join("")}
-            </div>
-            <a class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    `;
-    document.getElementById("carousel").innerHTML += carousel;
-}
+
+// document.getElementById('bloc-img').addEventListener("click", () => {console.log("test")});
 
 createImage(galleries, new ElementFactory(), photographers)
 carousel(photographers, galleries, new ElementFactory())

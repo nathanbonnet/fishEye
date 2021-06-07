@@ -88,3 +88,51 @@ export default function createImage(galleries, ElementFactory, photographers) {
         i++
     });
 }
+
+document.getElementById('bloc-img').addEventListener("click", () => {
+    const arrayCarrouselItem = document.getElementsByClassName('carousel-item');
+    for (const item of arrayCarrouselItem) {
+        if (item.querySelector('img').src.includes(gallerie.image)) {
+            item.classList.add('active')
+        } else {
+            item.classList.remove("active");
+        }
+    }
+});
+
+
+// creation du carousel
+export function carousel(photographers, galleries) {
+    const imageDirectoryName = photographers.name.split(' ')[0];
+    let carousel = `
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+            <!-- methode factory pour l'image ou la video -->
+                ${galleries.map(gallerie => {
+                    if (gallerie.image) {
+                        return `
+                            <div class="carousel-item d-flex justify-content-center">
+                                <img src="../img/Sample_Photos-2/${imageDirectoryName}/${gallerie.image}" class="d-block img_carousel" alt="${gallerie.image}">
+                            </div>
+                        `
+                    } else if (gallerie.video) {
+                        return `
+                            <div class="carousel-item d-flex justify-content-center">
+                                <video src="../img/Sample_Photos-2/${imageDirectoryName}/${gallerie.video}" class="d-block img_carousel" alt="${gallerie.video}">
+                            </div>
+                        `
+                    }
+                }).join("")}
+            </div>
+            <a class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    `;
+    document.getElementById("carousel").innerHTML += carousel;
+}

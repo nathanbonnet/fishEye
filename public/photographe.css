@@ -26,8 +26,8 @@ body {
 }
 
 .img {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -59,6 +59,7 @@ body {
     align-items: center;
     background-color: #fafafa;
     margin-top: 3rem;
+    justify-content: space-around;
 }
 
 #info {
@@ -71,7 +72,6 @@ body {
 
 #contact {
     width: 45%;
-    margin-left: 5.5em;
 }
 
 .button_contact, .button_envoyer {
@@ -236,9 +236,12 @@ body {
     #bloc_main_photographer {
         height: 170px;
     }
+    #img {
+        margin-left: 0;
+    }
     .img {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
     }
     .logo {
         width: 55%;
@@ -254,7 +257,7 @@ body {
 #bloc_main {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .bloc_info {
@@ -264,6 +267,7 @@ body {
 .bloc-img {
     width: 350px;
     height: 350px;
+    text-decoration: none;
 }
 
 .img-card {
@@ -273,4 +277,17 @@ body {
 
 .title {
     width: 65%;
+}
+
+@media (min-width: 991px) {
+    #bloc_main {
+        justify-content: space-between;
+    }
+    #contact {
+        margin-left: 5.5em;
+    }
+    .img {
+        height: 200px;
+        width: 200px;
+    }
 }
