@@ -1,4 +1,5 @@
 import data from '../data.json';
+
 // window.localStorage.clear();
 
 //permet de recuperer les information passé dans l'url
@@ -59,16 +60,16 @@ function createImage(galleries) {
             
         // creation de tous les elements necessaire au bloc pour les images
         const factory = new ElementFactory();
-        const bloc_img = document.createElement("div");
+        const bloc_img = document.createElement("a");
         const bloc_info = document.createElement("div");
         const title = document.createElement("p");
         const price = document.createElement("p");
         let like = document.createElement("p");
-        let img;
+        let element;
 
         // cretion d'un bloc img ou video selon le format du contenu 
         if (gallerie.image) {
-            img = factory.create("image");
+            element = factory.create("image");
             // si le nom de l'image contient 2 fois un .jpg alors elle en effacera 1
             if (gallerie.image && gallerie.image.includes(".jpg.jpg")) {
                 gallerie.image = gallerie.image.replace('.jpg.jpg', '.jpg')
@@ -76,16 +77,16 @@ function createImage(galleries) {
 
             // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
-            img.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.image;
+            element.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.image;
         }else if (gallerie.video) {
-            img = factory.create("video");
+            element = factory.create("video");
 
             // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
             const imageDirectoryName = photographers.name.split(' ')[0];
-            img.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video;
+            element.src = "../img/Sample_Photos-2/"+ imageDirectoryName+"/"+gallerie.video+"#t=0.1";
         }
         bloc.append(bloc_img);
-        bloc_img.append(img);
+        bloc_img.append(element);
         bloc_img.append(bloc_info);
         bloc_info.append(title);
         bloc_info.append(price);
@@ -98,19 +99,25 @@ function createImage(galleries) {
     
         //class
         bloc_img.setAttribute("class", "bloc-img mt-4");
+        bloc_img.setAttribute("href", "#");
         bloc_info.setAttribute("class", "d-flex justify-content-between bloc_info mt-2");
         title.setAttribute("class", "title")
-        img.setAttribute("class", "w-100 img-card");
+        element.setAttribute("class", "w-100 img-card");
+        element.setAttribute("controls", "");
         like.setAttribute("id", "like"+ i);
+        like.setAttribute("class", "like");
     
         //aria-label
         bloc_img.setAttribute("aria-label", gallerie.image)
         title.setAttribute("aria-label", gallerie.image)
         price.setAttribute("aria-label", gallerie.price+" euro");
-        img.setAttribute("alt", gallerie.image);
-        img.setAttribute("data-toggle", "modal");
-        img.setAttribute("data-target", "#carousel");
+        element.setAttribute("alt", gallerie.image);
+        element.setAttribute("data-toggle", "modal");
+        element.setAttribute("aria-label", "element photographe");
         like.setAttribute("aria-label", gallerie.likes+" like");
+        element.addEventListener("click", () => {
+            element.setAttribute("data-target", "#carousel");
+        })
 
         document.getElementById("like"+ i).addEventListener("click", () => {
             //toggle de like
@@ -129,17 +136,31 @@ function createImage(galleries) {
         i++
 
         bloc_img.addEventListener("click", () => {
-            console.log(bloc_img)
-            const arrayCarrouselItem = document.getElementsByClassName('carousel-item');
-            for (const item of arrayCarrouselItem) {
-                if (item.querySelector('img').src.includes(gallerie.image)) {
-                    item.classList.add('active')
-                } else {
-                    item.classList.remove("active");
-                }
+            handleCarousel(gallerie)
+        });
+        bloc_img.addEventListener("keyup", (e) => {
+            e.preventDefault();
+            console.log(e.key);
+            if (e.key === "Enter") {
+                handleCarousel(gallerie)
+                console.log("kop", gallerie)
             }
         });
     });
+}
+
+const handleCarousel = (gallerie) => {
+    const arrayCarrouselItem = document.getElementsByClassName('carousel-item');
+    for (const item of arrayCarrouselItem) {
+        const selectorImage = item.querySelector('img');
+        const selectorVideo = item.querySelector('video');
+        const selector = selectorImage ? selectorImage.src.includes(gallerie.image) : selectorVideo.src.includes(gallerie.video)
+        if (selector) {
+            item.classList.add('active')
+        } else {
+            item.classList.remove("active");
+        }
+    }
 }
 
 // permet de garder juste le prenom du photo du photographe pour faire la route vers la photo dans le dossier img
@@ -247,7 +268,7 @@ date.addEventListener("click", () => {
 // creation du carousel
 function carousel(photographer, galleries) {
     let carousel = `
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleControls" class="carousel" data-ride="carousel">
             <div class="carousel-inner">
             <!-- methode factory pour l'image ou la video -->
                 ${galleries.map(gallerie => {
@@ -260,7 +281,7 @@ function carousel(photographer, galleries) {
                     } else if (gallerie.video) {
                         return `
                             <div class="carousel-item d-flex justify-content-center">
-                                <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}" class="d-block w-50 img_carousel" alt="${gallerie.video}">
+                                <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}#t=0.1" controls class="d-block w-50 img_carousel" alt="${gallerie.video}">
                             </div>
                         `
                     }

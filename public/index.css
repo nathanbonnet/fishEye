@@ -92,7 +92,6 @@ main {
 
 .bloc_photographer {
     padding: 2em;
-    width: 60%;
     text-align: center;
 }
 
@@ -115,11 +114,10 @@ main {
 @media (min-width: 1250px) {
     #bloc_main {
         flex-direction: row;
-        width: 80%;
+        max-width: 1200px;
     }
     .bloc_photographer {
         padding: 2em;
-        width: 20% !important;
         text-align: center;
     }
 }
