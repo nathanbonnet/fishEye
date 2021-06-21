@@ -66,6 +66,11 @@ function createImage(galleries) {
         const price = document.createElement("p");
         let like = document.createElement("p");
         let element;
+        bloc_img.onclick = function(e){
+            e.preventDefault(); // empêche le comportement par défaut
+            e.returnValue = false; // Pour quelques vieux IE
+            return false; // Pour empêcher toute action à suivre
+        }
 
         // cretion d'un bloc img ou video selon le format du contenu 
         if (gallerie.image) {
@@ -103,7 +108,6 @@ function createImage(galleries) {
         bloc_info.setAttribute("class", "d-flex justify-content-between bloc_info mt-2");
         title.setAttribute("class", "title")
         element.setAttribute("class", "w-100 img-card");
-        element.setAttribute("controls", "");
         like.setAttribute("id", "like"+ i);
         like.setAttribute("class", "like");
     
@@ -112,11 +116,12 @@ function createImage(galleries) {
         title.setAttribute("aria-label", gallerie.image)
         price.setAttribute("aria-label", gallerie.price+" euro");
         element.setAttribute("alt", gallerie.image);
-        element.setAttribute("data-toggle", "modal");
-        element.setAttribute("aria-label", "element photographe");
+        bloc_img.setAttribute("data-toggle", "modal");
+        bloc_img.setAttribute("aria-label", "element photographe");
         like.setAttribute("aria-label", gallerie.likes+" like");
-        element.addEventListener("click", () => {
-            element.setAttribute("data-target", "#carousel");
+        bloc_img.addEventListener("click", () => {
+            bloc_img.setAttribute("data-target", "#carousel");
+            handleCarousel(gallerie)
         })
 
         document.getElementById("like"+ i).addEventListener("click", () => {
@@ -134,18 +139,6 @@ function createImage(galleries) {
             total_like.innerHTML = total + ' <i class="fas fa-heart"></i>';
         })
         i++
-
-        bloc_img.addEventListener("click", () => {
-            handleCarousel(gallerie)
-        });
-        bloc_img.addEventListener("keyup", (e) => {
-            e.preventDefault();
-            console.log(e.key);
-            if (e.key === "Enter") {
-                handleCarousel(gallerie)
-                console.log("kop", gallerie)
-            }
-        });
     });
 }
 
@@ -287,17 +280,29 @@ function carousel(photographer, galleries) {
                     }
                 }).join("")}
             </div>
-            <a class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <a id="next" class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <a id="prev" class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
         </div>
     `;
-    document.getElementById("carousel").innerHTML += carousel;
+    const blocCarousel = document.getElementById("carousel");
+    blocCarousel.innerHTML += carousel;
+
+    blocCarousel.addEventListener("keyup", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e.key);
+        if (e.key === "ArrowRight") {
+            document.getElementById("prev").click();
+        } else if (e.key === "ArrowLeft") {
+            document.getElementById("next").click();
+        }
+    });
 }
 
 
