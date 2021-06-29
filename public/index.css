@@ -53,6 +53,10 @@ main {
     color: rgb(197, 94, 69);
 }
 
+.bloc_photographer {
+    width: auto;
+}
+
 .bloc_photographers_tags {
     margin-top: -10px;
     display: flex;
@@ -74,6 +78,37 @@ main {
 .lien_tag_photographe_selected {
     background-color: rgb(127, 37, 32);
     color: white;
+}
+
+#contenu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    background-color: #d3573c;
+    width: 7%;
+    display: none;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+}
+
+.contenuCache {
+    display: none;
+}
+
+.contenuDynamic {
+    display: flex !important;
+}
+
+.lien_tag_photographe {
+    margin-top: 15px;
 }
 
 .photographers_city {
@@ -114,11 +149,15 @@ main {
 @media (min-width: 1250px) {
     #bloc_main {
         flex-direction: row;
-        max-width: 1200px;
+        max-width: 1200px !important;
+        min-width: 1000px !important;
     }
     .bloc_photographer {
         padding: 2em;
         text-align: center;
+    }
+    .bloc_photographer {
+        width: 20%;
     }
 }
 
@@ -161,5 +200,13 @@ main {
     .title {
         font-size: 15px;
         right: 2em;
+    }
+}
+
+@media (min-width: 1000px) {
+    #bloc_main {
+        flex-direction: row;
+        max-width: 800px;
+        min-width: 800px;
     }
 }

@@ -169,6 +169,17 @@ body {
     max-width: 100% !important;
 }
 
+.bloc_h2 {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    color: #901c1c;
+}
+
+.h2 {
+    font-size: 20px !important;
+}
+
 .modal_contact {
     right: 0;
     margin-left: auto;
@@ -185,6 +196,14 @@ body {
 }
 
 .carousel .active ~ .carousel-item:not(.active) {
+    opacity: 0;
+}
+
+.active {
+    opacity: 1 !important;
+}
+
+.carousel-item {
     opacity: 0;
 }
 

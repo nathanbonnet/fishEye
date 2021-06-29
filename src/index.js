@@ -9,7 +9,7 @@ const nav = document.getElementById("nav");
 let selectedTags = [];
 tags.forEach(unique => {
     let lien_tag_nav = document.createElement("a");
-    let tag_nav = document.createElement("p");
+    let tag_nav = document.createElement("span");
 
     nav.append(lien_tag_nav);
     lien_tag_nav.append(tag_nav);
@@ -56,7 +56,13 @@ function createPhotographers(photographers){
         //affichage de tous les élements nécessaire pour chaque photographe
         photographers.textContent = photographer.name;
         photographers_city.textContent = photographer.city + ", " + photographer.country;
-        photographers_tagLine.textContent = photographer.tagline;
+        let tagLine;
+        try {
+            tagLine = decodeURIComponent(escape(photographer.tagline));
+        } catch {
+            tagLine = decodeURIComponent(escape(photographer.tagline.replace('Ã', 'a')));
+        }
+        photographers_tagLine.textContent = tagLine;
         photographers_price.textContent = photographer.price + "€/jour";
         image.src =  "../img/Sample_Photos-2/Photographers_ID_Photos/"+ photographer.portrait;
 
@@ -91,7 +97,7 @@ function createPhotographers(photographers){
         photographer.tags.forEach((photographer) => {
             //création de tous les élements pour les tags de chaque photographe
             const lien_photographers_tags = document.createElement("a");
-            const photographers_tags = document.createElement("p");
+            const photographers_tags = document.createElement("span");
 
             //affichage de tous les tags nécessaire pour chaque photographe
             photographers_tags.textContent = "#"+photographer;
@@ -114,5 +120,13 @@ function getPhotographersFromTags(photographers, selectedTag) {
     return photographers.filter(photographer => {
         return photographer.tags.filter((tag) => selectedTag.includes(tag)).length;
     });
+}
+
+window.onscroll = function() {
+    if (window.pageYOffset == 0) {
+        document.getElementById("contenu").setAttribute("class", "contenuCache");
+    } else {
+        document.getElementById("contenu").setAttribute("class", "contenuDynamic");
+    }
 }
 

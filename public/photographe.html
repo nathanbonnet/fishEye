@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="photographe.css">
@@ -19,7 +19,7 @@
         <header>
             <banner id="banner">
                 <a href="index.html">
-                    <img class="logo" src="../img/logo.png" alt="logo FishEye"/>
+                    <img class="logo" src="../img/logo.png" alt="FishEye Home Page"/>
                 </a>
             </banner>
         </header>
@@ -28,7 +28,7 @@
                 <div id="bloc_main_photographer">
                     <div id="info"></div>
                     <div id="contact">
-                        <button type="button" id="contacter" aria-label="contacter le photographe" class="button_contact d-none d-md-block" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" id="contacter" aria-label="contact me" class="button_contact d-none d-md-block" data-toggle="modal" data-target="#exampleModal">
                             Contactez-moi
                           </button>
                           
@@ -38,7 +38,7 @@
                               <div class="modal-content">
                                 <div class="modal-header border-0">
                                   <h2 class="modal-title" id="exampleModalLabel"></h2>
-                                  <button type="button" class="close close_carousel border-0" aria-label="fermer le carousel" data-dismiss="modal">
+                                  <button type="button" class="close close_carousel border-0" aria-label="close contact form" data-dismiss="modal">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
@@ -46,37 +46,37 @@
                                     <form>
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label text-white">Prénom</label>
-                                            <input type="text" class="form-control" aria-label="champ prenom" name="Prénom" id="prenom">
+                                            <input type="text" class="form-control" aria-label="first name" name="Prénom" id="prenom">
                                         </div>
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label text-white">Nom</label>
-                                            <input type="text" class="form-control" aria-label="champ nom" name="Nom" id="nom">
+                                            <input type="text" class="form-control" aria-label="last name" name="Nom" id="nom">
                                         </div>
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label text-white">Email</label>
-                                            <input type="email" class="form-control" aria-label="champ email" name="Email" id="email">
+                                            <input type="email" class="form-control" aria-label="email" name="Email" id="email">
                                         </div>
                                         <div class="form-group">
                                           <label for="message-text" class="col-form-label text-white">Votre message</label>
-                                          <textarea class="form-control" name="Votre message" aria-label="champ votre message" id="message"></textarea>
+                                          <textarea class="form-control" name="Votre message" aria-label="your message" id="message"></textarea>
                                         </div>
                                         <span id="error"></span>
                                       </form>
                                 </div>
                                 <div class="modal-footer border-0 justify-content-start">
-                                  <button id="envoyer" type="button" aria-label="envoyer le formulaire" class="button_envoyer px-5 close">Envoyer</button>
+                                  <button id="envoyer" type="button" aria-label="send" class="button_envoyer px-5 close">Envoyer</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                     </div>
                     <div id="img">
-                        <img src="" class="img" alt="image du photographe" aria-label="image du photographe" id="img_photographer"/>
+                        <img src="" class="img" alt="" id="img_photographer"/>
                     </div>
                 </div>
                 <div class="trie d-none d-md-flex align-items-center">
                     <p class="mt-4">Trier par</p>
-                    <div class="dropdown" aria-label="selection des citeres d'affichage">
+                    <div class="dropdown" aria-label="selection des criteres d'affichage">
                         <button class="btn dropdown-toggle" aria-label="bouton de selection" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                           Popularité
                         </button>
@@ -90,11 +90,11 @@
                 <div aria-label="les images" id="bloc_main" class="mt-4">
                   
                 </div>
-                <div class="modal" id="carousel" tabindex="-1" role="dialog">
+                <div class="modal" aria-label="image closeup view" id="carousel" tabindex="-1" role="dialog">
                   <div class="modal-dialog" role="document">
                       <div>
                         <div class="close_carousel border-0">
-                            <button type="button" class="close border-0" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close border-0" data-dismiss="modal" aria-label="Close dialog">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>

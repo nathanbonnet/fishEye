@@ -63,7 +63,6 @@ function createImage(galleries) {
         const bloc_img = document.createElement("a");
         const bloc_info = document.createElement("div");
         const title = document.createElement("p");
-        const price = document.createElement("p");
         let like = document.createElement("p");
         let element;
         bloc_img.onclick = function(e){
@@ -94,12 +93,10 @@ function createImage(galleries) {
         bloc_img.append(element);
         bloc_img.append(bloc_info);
         bloc_info.append(title);
-        bloc_info.append(price);
         bloc_info.append(like);
 
         gallerie.name = gallerie.image ? gallerie.image.replace('.jpg', '') : gallerie.video.replace('.mp4', '');
         title.innerHTML = gallerie.name;
-        price.innerHTML = gallerie.price+" €";
         like.innerHTML = gallerie.likes + ' <i class="fas fa-heart"></i>';
     
         //class
@@ -114,11 +111,10 @@ function createImage(galleries) {
         //aria-label
         bloc_img.setAttribute("aria-label", gallerie.image)
         title.setAttribute("aria-label", gallerie.image)
-        price.setAttribute("aria-label", gallerie.price+" euro");
         element.setAttribute("alt", gallerie.image);
         bloc_img.setAttribute("data-toggle", "modal");
         bloc_img.setAttribute("aria-label", "element photographe");
-        like.setAttribute("aria-label", gallerie.likes+" like");
+        like.setAttribute("aria-label", "like");
         bloc_img.addEventListener("click", () => {
             bloc_img.setAttribute("data-target", "#carousel");
             handleCarousel(gallerie)
@@ -203,7 +199,7 @@ tarif_total.setAttribute("aria-label", "prix a la journée du photographe " + ph
 photographers.tags.forEach((photographer) => {
     //création de tous les élements pour les tags de chaque photographe
     const lien_photographers_tags = document.createElement("a");
-    const photographers_tags = document.createElement("p");
+    const photographers_tags = document.createElement("span");
 
     //affichage de tous les tags nécessaire pour chaque photographe
     photographers_tags.textContent = "#"+ photographer;
@@ -223,7 +219,7 @@ photographers.tags.forEach((photographer) => {
 }) 
 
 img.src = "../img/Sample_Photos-2/Photographers_ID_Photos/"+photographers.portrait;
-
+img.setAttribute("aria-label", photographers.name)
 
 //dropdown
 
@@ -254,7 +250,7 @@ date.addEventListener("click", () => {
         gallerie.timestamp = (new Date(gallerie.date)).getTime()
     });
     galleries.sort((a, b) => b.timestamp - a.timestamp);
-    createImage(galleries)
+    createImage(galleries)  
 });
 
 
@@ -267,24 +263,30 @@ function carousel(photographer, galleries) {
                 ${galleries.map(gallerie => {
                     if (gallerie.image) {
                         return `
-                            <div class="carousel-item d-flex justify-content-center">
+                            <div class="carousel-item d-flex flex-column align-items-center justify-content-center">
                                 <img src="../img/Sample_Photos-2/${photographer}/${gallerie.image}" class="d-block w-50 img_carousel" alt="${gallerie.image}">
+                                <div class="bloc_h2">
+                                    <h2 class="h2">${gallerie.name}</h2>
+                                </div>
                             </div>
                         `
                     } else if (gallerie.video) {
                         return `
                             <div class="carousel-item d-flex justify-content-center">
                                 <video src="../img/Sample_Photos-2/${photographer}/${gallerie.video}#t=0.1" controls class="d-block w-50 img_carousel" alt="${gallerie.video}">
+                                <div class="bloc_h2">
+                                    <h2 class="h2">${gallerie.name}</h2>
+                                </div>
                             </div>
                         `
                     }
                 }).join("")}
             </div>
-            <a id="next" class="carousel-control-prev carousel-control" aria-label="carousel-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <a id="next" class="carousel-control-prev carousel-control" aria-label="previous image" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a id="prev" class="carousel-control-next carousel-control" aria-label="carousel-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <a id="prev" class="carousel-control-next carousel-control" aria-label="next image" href="#carouselExampleControls" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
