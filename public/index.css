@@ -91,7 +91,7 @@ main {
     border-radius: 2rem;
     padding: 0.5rem;
     background-color: #d3573c;
-    width: 7%;
+    width: 30%;
     display: none;
     justify-content: center;
     text-decoration: none;
@@ -208,5 +208,8 @@ main {
         flex-direction: row;
         max-width: 800px;
         min-width: 800px;
+    }
+    #contenu {
+        width: 10%;
     }
 }
